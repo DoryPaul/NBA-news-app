@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.QiuyuananalyseMapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Qiuyuananalyse" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="assist" property="assist" jdbcType="DOUBLE" />
+    <result column="block" property="block" jdbcType="DOUBLE" />
+    <result column="rebound" property="rebound" jdbcType="DOUBLE" />
+    <result column="steal" property="steal" jdbcType="DOUBLE" />
+    <result column="qiuyuanid" property="qiuyuanid" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.test.pojo.QiuyuananalyseWithBLOBs" extends="BaseResultMap" >
+    <result column="qiuyuanpicurl" property="qiuyuanpicurl" jdbcType="LONGVARCHAR" />
+    <result column="gongzi" property="gongzi" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, score, assist, block, rebound, steal, qiuyuanid
+  </sql>
+  <sql id="Blob_Column_List" >
+    qiuyuanpicurl, gongzi
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.QiuyuananalyseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from qiuyuananalyse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.QiuyuananalyseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from qiuyuananalyse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from qiuyuananalyse
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from qiuyuananalyse
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.QiuyuananalyseExample" >
+    delete from qiuyuananalyse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.QiuyuananalyseWithBLOBs" >
+    insert into qiuyuananalyse (id, score, assist, 
+      block, rebound, steal, 
+      qiuyuanid, qiuyuanpicurl, gongzi
+      )
+    values (#{id,jdbcType=INTEGER}, #{score,jdbcType=DOUBLE}, #{assist,jdbcType=DOUBLE}, 
+      #{block,jdbcType=DOUBLE}, #{rebound,jdbcType=DOUBLE}, #{steal,jdbcType=DOUBLE}, 
+      #{qiuyuanid,jdbcType=INTEGER}, #{qiuyuanpicurl,jdbcType=LONGVARCHAR}, #{gongzi,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.QiuyuananalyseWithBLOBs" >
+    insert into qiuyuananalyse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="assist != null" >
+        assist,
+      </if>
+      <if test="block != null" >
+        block,
+      </if>
+      <if test="rebound != null" >
+        rebound,
+      </if>
+      <if test="steal != null" >
+        steal,
+      </if>
+      <if test="qiuyuanid != null" >
+        qiuyuanid,
+      </if>
+      <if test="qiuyuanpicurl != null" >
+        qiuyuanpicurl,
+      </if>
+      <if test="gongzi != null" >
+        gongzi,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="assist != null" >
+        #{assist,jdbcType=DOUBLE},
+      </if>
+      <if test="block != null" >
+        #{block,jdbcType=DOUBLE},
+      </if>
+      <if test="rebound != null" >
+        #{rebound,jdbcType=DOUBLE},
+      </if>
+      <if test="steal != null" >
+        #{steal,jdbcType=DOUBLE},
+      </if>
+      <if test="qiuyuanid != null" >
+        #{qiuyuanid,jdbcType=INTEGER},
+      </if>
+      <if test="qiuyuanpicurl != null" >
+        #{qiuyuanpicurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gongzi != null" >
+        #{gongzi,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.QiuyuananalyseExample" resultType="java.lang.Integer" >
+    select count(*) from qiuyuananalyse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update qiuyuananalyse
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=DOUBLE},
+      </if>
+      <if test="record.assist != null" >
+        assist = #{record.assist,jdbcType=DOUBLE},
+      </if>
+      <if test="record.block != null" >
+        block = #{record.block,jdbcType=DOUBLE},
+      </if>
+      <if test="record.rebound != null" >
+        rebound = #{record.rebound,jdbcType=DOUBLE},
+      </if>
+      <if test="record.steal != null" >
+        steal = #{record.steal,jdbcType=DOUBLE},
+      </if>
+      <if test="record.qiuyuanid != null" >
+        qiuyuanid = #{record.qiuyuanid,jdbcType=INTEGER},
+      </if>
+      <if test="record.qiuyuanpicurl != null" >
+        qiuyuanpicurl = #{record.qiuyuanpicurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.gongzi != null" >
+        gongzi = #{record.gongzi,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update qiuyuananalyse
+    set id = #{record.id,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DOUBLE},
+      assist = #{record.assist,jdbcType=DOUBLE},
+      block = #{record.block,jdbcType=DOUBLE},
+      rebound = #{record.rebound,jdbcType=DOUBLE},
+      steal = #{record.steal,jdbcType=DOUBLE},
+      qiuyuanid = #{record.qiuyuanid,jdbcType=INTEGER},
+      qiuyuanpicurl = #{record.qiuyuanpicurl,jdbcType=LONGVARCHAR},
+      gongzi = #{record.gongzi,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update qiuyuananalyse
+    set id = #{record.id,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DOUBLE},
+      assist = #{record.assist,jdbcType=DOUBLE},
+      block = #{record.block,jdbcType=DOUBLE},
+      rebound = #{record.rebound,jdbcType=DOUBLE},
+      steal = #{record.steal,jdbcType=DOUBLE},
+      qiuyuanid = #{record.qiuyuanid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.QiuyuananalyseWithBLOBs" >
+    update qiuyuananalyse
+    <set >
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="assist != null" >
+        assist = #{assist,jdbcType=DOUBLE},
+      </if>
+      <if test="block != null" >
+        block = #{block,jdbcType=DOUBLE},
+      </if>
+      <if test="rebound != null" >
+        rebound = #{rebound,jdbcType=DOUBLE},
+      </if>
+      <if test="steal != null" >
+        steal = #{steal,jdbcType=DOUBLE},
+      </if>
+      <if test="qiuyuanid != null" >
+        qiuyuanid = #{qiuyuanid,jdbcType=INTEGER},
+      </if>
+      <if test="qiuyuanpicurl != null" >
+        qiuyuanpicurl = #{qiuyuanpicurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gongzi != null" >
+        gongzi = #{gongzi,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.test.pojo.QiuyuananalyseWithBLOBs" >
+    update qiuyuananalyse
+    set score = #{score,jdbcType=DOUBLE},
+      assist = #{assist,jdbcType=DOUBLE},
+      block = #{block,jdbcType=DOUBLE},
+      rebound = #{rebound,jdbcType=DOUBLE},
+      steal = #{steal,jdbcType=DOUBLE},
+      qiuyuanid = #{qiuyuanid,jdbcType=INTEGER},
+      qiuyuanpicurl = #{qiuyuanpicurl,jdbcType=LONGVARCHAR},
+      gongzi = #{gongzi,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.pojo.Qiuyuananalyse" >
+    update qiuyuananalyse
+    set score = #{score,jdbcType=DOUBLE},
+      assist = #{assist,jdbcType=DOUBLE},
+      block = #{block,jdbcType=DOUBLE},
+      rebound = #{rebound,jdbcType=DOUBLE},
+      steal = #{steal,jdbcType=DOUBLE},
+      qiuyuanid = #{qiuyuanid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

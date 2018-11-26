@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.PinglunMapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Pinglun" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="yonghuid" property="yonghuid" jdbcType="INTEGER" />
+    <result column="newsid" property="newsid" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.test.pojo.Pinglun" extends="BaseResultMap" >
+    <result column="neirong" property="neirong" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, yonghuid, newsid
+  </sql>
+  <sql id="Blob_Column_List" >
+    neirong
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.PinglunExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pinglun
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.PinglunExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pinglun
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pinglun
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pinglun
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.PinglunExample" >
+    delete from pinglun
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.Pinglun" >
+    insert into pinglun (id, yonghuid, newsid, 
+      neirong)
+    values (#{id,jdbcType=INTEGER}, #{yonghuid,jdbcType=INTEGER}, #{newsid,jdbcType=INTEGER}, 
+      #{neirong,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.Pinglun" >
+    insert into pinglun
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="yonghuid != null" >
+        yonghuid,
+      </if>
+      <if test="newsid != null" >
+        newsid,
+      </if>
+      <if test="neirong != null" >
+        neirong,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="yonghuid != null" >
+        #{yonghuid,jdbcType=INTEGER},
+      </if>
+      <if test="newsid != null" >
+        #{newsid,jdbcType=INTEGER},
+      </if>
+      <if test="neirong != null" >
+        #{neirong,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.PinglunExample" resultType="java.lang.Integer" >
+    select count(*) from pinglun
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pinglun
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.yonghuid != null" >
+        yonghuid = #{record.yonghuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.newsid != null" >
+        newsid = #{record.newsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.neirong != null" >
+        neirong = #{record.neirong,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update pinglun
+    set id = #{record.id,jdbcType=INTEGER},
+      yonghuid = #{record.yonghuid,jdbcType=INTEGER},
+      newsid = #{record.newsid,jdbcType=INTEGER},
+      neirong = #{record.neirong,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pinglun
+    set id = #{record.id,jdbcType=INTEGER},
+      yonghuid = #{record.yonghuid,jdbcType=INTEGER},
+      newsid = #{record.newsid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.Pinglun" >
+    update pinglun
+    <set >
+      <if test="yonghuid != null" >
+        yonghuid = #{yonghuid,jdbcType=INTEGER},
+      </if>
+      <if test="newsid != null" >
+        newsid = #{newsid,jdbcType=INTEGER},
+      </if>
+      <if test="neirong != null" >
+        neirong = #{neirong,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.test.pojo.Pinglun" >
+    update pinglun
+    set yonghuid = #{yonghuid,jdbcType=INTEGER},
+      newsid = #{newsid,jdbcType=INTEGER},
+      neirong = #{neirong,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.pojo.Pinglun" >
+    update pinglun
+    set yonghuid = #{yonghuid,jdbcType=INTEGER},
+      newsid = #{newsid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
