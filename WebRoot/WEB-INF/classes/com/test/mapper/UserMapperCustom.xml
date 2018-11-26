@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.UserMapperCustom" >
+
+
+ <sql id="query_user_where">
+        <!-- 使用动态sql，通过if判断，满足条件进行sql拼接 -->
+        <!-- 注意itemsCustom中的s，找了半天的错 -->
+        <if test="user!=null">
+              <if test="user.username!=null and user.username!=''"></if>
+          `username`LIKE'%${user.username}%'
+        </if>
+       
+        </sql>
+<!-- parameterType传入包装对象 （包装了查询条件）
+resultType建议使用扩展对象
+-->
+     <select id="checkLogin" parameterType="com.test.pojo.User" 
+         resultType="com.test.pojo.User">
+         select * from `user` where username=#{0} and password=#{1} and identity="manager"
+          
+     </select>
+     
+     <select id="userList" parameterType="com.test.pojo.UserQueryVo"
+     resultType="com.test.pojo.User">
+       select * from user where identity="yonghu"
+     </select>
+     
+     <select id="findUserByName" parameterType="com.test.pojo.UserQueryVo"
+     resultType="com.test.pojo.User">
+     select * from user where identity="yonghu" and `username`LIKE'%${user.username}%'
+     </select>
+
+     <insert id="register" parameterType="com.test.pojo.User"  >
+    insert into user (username,password,identity) values (#{username},#{password},#{identity})
+     </insert>
+
+</mapper>

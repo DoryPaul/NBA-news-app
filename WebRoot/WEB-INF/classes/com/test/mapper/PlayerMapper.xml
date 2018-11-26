@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.PlayerMapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Player" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="shengti" property="shengti" jdbcType="DATE" />
+    <result column="qiuduiid" property="qiuduiid" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.test.pojo.PlayerWithBLOBs" extends="BaseResultMap" >
+    <result column="name" property="name" jdbcType="LONGVARCHAR" />
+    <result column="weizhi" property="weizhi" jdbcType="LONGVARCHAR" />
+    <result column="shengao" property="shengao" jdbcType="LONGVARCHAR" />
+    <result column="tizhong" property="tizhong" jdbcType="LONGVARCHAR" />
+    <result column="blengqiudui" property="blengqiudui" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, shengti, qiuduiid
+  </sql>
+  <sql id="Blob_Column_List" >
+    name, weizhi, shengao, tizhong, blengqiudui
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.PlayerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from player
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectAll" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.PlayerVo">
+  select * from player
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.PlayerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from player
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from player
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from player
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.PlayerExample" >
+    delete from player
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.PlayerWithBLOBs" >
+    insert into player (id, shengti, qiuduiid, 
+      name, weizhi, shengao, 
+      tizhong, blengqiudui)
+    values (#{id,jdbcType=INTEGER}, #{shengti,jdbcType=DATE}, #{qiuduiid,jdbcType=INTEGER}, 
+      #{name,jdbcType=LONGVARCHAR}, #{weizhi,jdbcType=LONGVARCHAR}, #{shengao,jdbcType=LONGVARCHAR}, 
+      #{tizhong,jdbcType=LONGVARCHAR}, #{blengqiudui,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.PlayerWithBLOBs" >
+    insert into player
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shengti != null" >
+        shengti,
+      </if>
+      <if test="qiuduiid != null" >
+        qiuduiid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="weizhi != null" >
+        weizhi,
+      </if>
+      <if test="shengao != null" >
+        shengao,
+      </if>
+      <if test="tizhong != null" >
+        tizhong,
+      </if>
+      <if test="blengqiudui != null" >
+        blengqiudui,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shengti != null" >
+        #{shengti,jdbcType=DATE},
+      </if>
+      <if test="qiuduiid != null" >
+        #{qiuduiid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="weizhi != null" >
+        #{weizhi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shengao != null" >
+        #{shengao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tizhong != null" >
+        #{tizhong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="blengqiudui != null" >
+        #{blengqiudui,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.PlayerExample" resultType="java.lang.Integer" >
+    select count(*) from player
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update player
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shengti != null" >
+        shengti = #{record.shengti,jdbcType=DATE},
+      </if>
+      <if test="record.qiuduiid != null" >
+        qiuduiid = #{record.qiuduiid,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.weizhi != null" >
+        weizhi = #{record.weizhi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.shengao != null" >
+        shengao = #{record.shengao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.tizhong != null" >
+        tizhong = #{record.tizhong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.blengqiudui != null" >
+        blengqiudui = #{record.blengqiudui,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update player
+    set id = #{record.id,jdbcType=INTEGER},
+      shengti = #{record.shengti,jdbcType=DATE},
+      qiuduiid = #{record.qiuduiid,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=LONGVARCHAR},
+      weizhi = #{record.weizhi,jdbcType=LONGVARCHAR},
+      shengao = #{record.shengao,jdbcType=LONGVARCHAR},
+      tizhong = #{record.tizhong,jdbcType=LONGVARCHAR},
+      blengqiudui = #{record.blengqiudui,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update player
+    set id = #{record.id,jdbcType=INTEGER},
+      shengti = #{record.shengti,jdbcType=DATE},
+      qiuduiid = #{record.qiuduiid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.PlayerWithBLOBs" >
+    update player
+    <set >
+      <if test="shengti != null" >
+        shengti = #{shengti,jdbcType=DATE},
+      </if>
+      <if test="qiuduiid != null" >
+        qiuduiid = #{qiuduiid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="weizhi != null" >
+        weizhi = #{weizhi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="shengao != null" >
+        shengao = #{shengao,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tizhong != null" >
+        tizhong = #{tizhong,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="blengqiudui != null" >
+        blengqiudui = #{blengqiudui,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.test.pojo.PlayerWithBLOBs" >
+    update player
+    set shengti = #{shengti,jdbcType=DATE},
+      qiuduiid = #{qiuduiid,jdbcType=INTEGER},
+      name = #{name,jdbcType=LONGVARCHAR},
+      weizhi = #{weizhi,jdbcType=LONGVARCHAR},
+      shengao = #{shengao,jdbcType=LONGVARCHAR},
+      tizhong = #{tizhong,jdbcType=LONGVARCHAR},
+      blengqiudui = #{blengqiudui,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.pojo.Player" >
+    update player
+    set shengti = #{shengti,jdbcType=DATE},
+      qiuduiid = #{qiuduiid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

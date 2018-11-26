@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.MatchMapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Match" >
+    <id column="matchid" property="matchid" jdbcType="INTEGER" />
+    <result column="team1" property="team1" jdbcType="VARCHAR" />
+    <result column="team2" property="team2" jdbcType="VARCHAR" />
+    <result column="team1support" property="team1support" jdbcType="INTEGER" />
+    <result column="team2support" property="team2support" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.test.pojo.MatchWithBLOBs" extends="BaseResultMap" >
+    <result column="team1score" property="team1score" jdbcType="LONGVARCHAR" />
+    <result column="team2score" property="team2score" jdbcType="LONGVARCHAR" />
+    <result column="team1icon" property="team1icon" jdbcType="LONGVARCHAR" />
+    <result column="team2icon" property="team2icon" jdbcType="LONGVARCHAR" />
+    <result column="zhuangtai" property="zhuangtai" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    matchid, team1, team2, team1support, team2support
+  </sql>
+  <sql id="Blob_Column_List" >
+    team1score, team2score, team1icon, team2icon, zhuangtai
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.MatchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from match
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectAll" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.MatchWithBLOBs">
+  select * from `match`
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.MatchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from match
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `match`
+    where matchid = #{matchid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `match`
+    where matchid = #{matchid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.MatchExample" >
+    delete from match
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.MatchWithBLOBs" >
+    insert into match (matchid, team1, team2, 
+      team1support, team2support, team1score, 
+      team2score, team1icon, team2icon
+      )
+    values (#{matchid,jdbcType=INTEGER}, #{team1,jdbcType=VARCHAR}, #{team2,jdbcType=VARCHAR}, 
+      #{team1support,jdbcType=INTEGER}, #{team2support,jdbcType=INTEGER}, #{team1score,jdbcType=LONGVARCHAR}, 
+      #{team2score,jdbcType=LONGVARCHAR}, #{team1icon,jdbcType=LONGVARCHAR}, #{team2icon,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertmost" parameterType="com.test.pojo.MatchWithBLOBs">
+  INSERT INTO `match` (
+	`match`.team1,
+	`match`.team2,
+	`match`.team1support,
+  `match`.team2support,
+	`match`.team1score,
+  `match`.team2score
+)VALUES(#{team1},#{team2},0,0,0,0)
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.MatchWithBLOBs" >
+    insert into match
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="matchid != null" >
+        matchid,
+      </if>
+      <if test="team1 != null" >
+        team1,
+      </if>
+      <if test="team2 != null" >
+        team2,
+      </if>
+      <if test="team1support != null" >
+        team1support,
+      </if>
+      <if test="team2support != null" >
+        team2support,
+      </if>
+      <if test="team1score != null" >
+        team1score,
+      </if>
+      <if test="team2score != null" >
+        team2score,
+      </if>
+      <if test="team1icon != null" >
+        team1icon,
+      </if>
+      <if test="team2icon != null" >
+        team2icon,
+      </if>
+      <if test="zhuangtai != null" >
+        zhuangtai,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="matchid != null" >
+        #{matchid,jdbcType=INTEGER},
+      </if>
+      <if test="team1 != null" >
+        #{team1,jdbcType=VARCHAR},
+      </if>
+      <if test="team2 != null" >
+        #{team2,jdbcType=VARCHAR},
+      </if>
+      <if test="team1support != null" >
+        #{team1support,jdbcType=INTEGER},
+      </if>
+      <if test="team2support != null" >
+        #{team2support,jdbcType=INTEGER},
+      </if>
+      <if test="team1score != null" >
+        #{team1score,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="team2score != null" >
+        #{team2score,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="team1icon != null" >
+        #{team1icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="team2icon != null" >
+        #{team2icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="zhuangtai != null" >
+        #{zhuangtai,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.MatchExample" resultType="java.lang.Integer" >
+    select count(*) from match
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update `match`
+    <set >
+      <if test="record.matchid != null" >
+        matchid = #{record.matchid,jdbcType=INTEGER},
+      </if>
+      <if test="record.team1 != null" >
+        team1 = #{record.team1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.team2 != null" >
+        team2 = #{record.team2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.team1support != null" >
+        team1support = #{record.team1support,jdbcType=INTEGER},
+      </if>
+      <if test="record.team2support != null" >
+        team2support = #{record.team2support,jdbcType=INTEGER},
+      </if>
+      <if test="record.team1score != null" >
+        team1score = #{record.team1score,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.team2score != null" >
+        team2score = #{record.team2score,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.team1icon != null" >
+        team1icon = #{record.team1icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.team2icon != null" >
+        team2icon = #{record.team2icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.zhuangtai != null" >
+        zhuangtai = #{record.zhuangtai,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update `match`
+    set matchid = #{record.matchid,jdbcType=INTEGER},
+      team1 = #{record.team1,jdbcType=VARCHAR},
+      team2 = #{record.team2,jdbcType=VARCHAR},
+      team1support = #{record.team1support,jdbcType=INTEGER},
+      team2support = #{record.team2support,jdbcType=INTEGER},
+      team1score = #{record.team1score,jdbcType=LONGVARCHAR},
+      team2score = #{record.team2score,jdbcType=LONGVARCHAR},
+      team1icon = #{record.team1icon,jdbcType=LONGVARCHAR},
+      team2icon = #{record.team2icon,jdbcType=LONGVARCHAR},
+      zhuangtai = #{record.zhuangtai,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update `match`
+    set matchid = #{record.matchid,jdbcType=INTEGER},
+      team1 = #{record.team1,jdbcType=VARCHAR},
+      team2 = #{record.team2,jdbcType=VARCHAR},
+      team1support = #{record.team1support,jdbcType=INTEGER},
+      team2support = #{record.team2support,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.MatchWithBLOBs" >
+    update `match`
+    <set >
+      <if test="team1 != null" >
+        team1 = #{team1,jdbcType=VARCHAR},
+      </if>
+      <if test="team2 != null" >
+        team2 = #{team2,jdbcType=VARCHAR},
+      </if>
+      <if test="team1support != null" >
+        team1support = #{team1support,jdbcType=INTEGER},
+      </if>
+      <if test="team2support != null" >
+        team2support = #{team2support,jdbcType=INTEGER},
+      </if>
+      <if test="team1score != null" >
+        team1score = #{team1score,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="team2score != null" >
+        team2score = #{team2score,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="team1icon != null" >
+        team1icon = #{team1icon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="team2icon != null" >
+        team2icon = #{team2icon,jdbcType=LONGVARCHAR},
+      </if>
+       <if test="zhuangtai != null" >
+        zhuangtai = #{zhuangtai,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where matchid = #{matchid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.test.pojo.MatchWithBLOBs" >
+    update match
+    set team1 = #{team1,jdbcType=VARCHAR},
+      team2 = #{team2,jdbcType=VARCHAR},
+      team1support = #{team1support,jdbcType=INTEGER},
+      team2support = #{team2support,jdbcType=INTEGER},
+      team1score = #{team1score,jdbcType=LONGVARCHAR},
+      team2score = #{team2score,jdbcType=LONGVARCHAR},
+      team1icon = #{team1icon,jdbcType=LONGVARCHAR},
+      team2icon = #{team2icon,jdbcType=LONGVARCHAR},
+      zhuangtai = #{zhuangtai,jdbcType=LONGVARCHAR}
+    where matchid = #{matchid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.pojo.Match" >
+    update match
+    set team1 = #{team1,jdbcType=VARCHAR},
+      team2 = #{team2,jdbcType=VARCHAR},
+      team1support = #{team1support,jdbcType=INTEGER},
+      team2support = #{team2support,jdbcType=INTEGER}
+    where matchid = #{matchid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.Newinfo1Mapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Newinfo1" >
+    <id column="newsid" property="newsid" jdbcType="INTEGER" />
+    <result column="newstime" property="newstime" jdbcType="TIMESTAMP" />
+    <result column="qiuduiid" property="qiuduiid" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.test.pojo.Newinfo1WithBLOBs" extends="BaseResultMap" >
+    <result column="newstitle" property="newstitle" jdbcType="LONGVARCHAR" />
+    <result column="newsdesc" property="newsdesc" jdbcType="LONGVARCHAR" />
+    <result column="newspicurl" property="newspicurl" jdbcType="LONGVARCHAR" />
+    <result column="contentur" property="contentur" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    newsid, newstime, qiuduiid
+  </sql>
+  <sql id="Blob_Column_List" >
+    newstitle, newsdesc, newspicurl, contentur
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.Newinfo1Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from newinfo1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectAll" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.Newsinfo1Vo">
+  select *from newinfo1
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.Newinfo1Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from newinfo1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from newinfo1
+    where newsid = #{newsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from newinfo1
+    where newsid = #{newsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.Newinfo1Example" >
+    delete from newinfo1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.Newinfo1WithBLOBs" >
+    insert into newinfo1 (newsid, newstime, qiuduiid, 
+      newstitle, newsdesc, newspicurl, 
+      contentur)
+    values (#{newsid,jdbcType=INTEGER}, #{newstime,jdbcType=TIMESTAMP}, #{qiuduiid,jdbcType=INTEGER}, 
+      #{newstitle,jdbcType=LONGVARCHAR}, #{newsdesc,jdbcType=LONGVARCHAR}, #{newspicurl,jdbcType=LONGVARCHAR}, 
+      #{contentur,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.Newinfo1WithBLOBs" >
+    insert into newinfo1
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="newsid != null" >
+        newsid,
+      </if>
+      <if test="newstime != null" >
+        newstime,
+      </if>
+      <if test="qiuduiid != null" >
+        qiuduiid,
+      </if>
+      <if test="newstitle != null" >
+        newstitle,
+      </if>
+      <if test="newsdesc != null" >
+        newsdesc,
+      </if>
+      <if test="newspicurl != null" >
+        newspicurl,
+      </if>
+      <if test="contentur != null" >
+        contentur,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="newsid != null" >
+        #{newsid,jdbcType=INTEGER},
+      </if>
+      <if test="newstime != null" >
+        #{newstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qiuduiid != null" >
+        #{qiuduiid,jdbcType=INTEGER},
+      </if>
+      <if test="newstitle != null" >
+        #{newstitle,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newsdesc != null" >
+        #{newsdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newspicurl != null" >
+        #{newspicurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentur != null" >
+        #{contentur,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.Newinfo1Example" resultType="java.lang.Integer" >
+    select count(*) from newinfo1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update newinfo1
+    <set >
+      <if test="record.newsid != null" >
+        newsid = #{record.newsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.newstime != null" >
+        newstime = #{record.newstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.qiuduiid != null" >
+        qiuduiid = #{record.qiuduiid,jdbcType=INTEGER},
+      </if>
+      <if test="record.newstitle != null" >
+        newstitle = #{record.newstitle,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.newsdesc != null" >
+        newsdesc = #{record.newsdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.newspicurl != null" >
+        newspicurl = #{record.newspicurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.contentur != null" >
+        contentur = #{record.contentur,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update newinfo1
+    set newsid = #{record.newsid,jdbcType=INTEGER},
+      newstime = #{record.newstime,jdbcType=TIMESTAMP},
+      qiuduiid = #{record.qiuduiid,jdbcType=INTEGER},
+      newstitle = #{record.newstitle,jdbcType=LONGVARCHAR},
+      newsdesc = #{record.newsdesc,jdbcType=LONGVARCHAR},
+      newspicurl = #{record.newspicurl,jdbcType=LONGVARCHAR},
+      contentur = #{record.contentur,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update newinfo1
+    set newsid = #{record.newsid,jdbcType=INTEGER},
+      newstime = #{record.newstime,jdbcType=TIMESTAMP},
+      qiuduiid = #{record.qiuduiid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.Newinfo1WithBLOBs" >
+    update newinfo1
+    <set >
+      <if test="newstime != null" >
+        newstime = #{newstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qiuduiid != null" >
+        qiuduiid = #{qiuduiid,jdbcType=INTEGER},
+      </if>
+      <if test="newstitle != null" >
+        newstitle = #{newstitle,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newsdesc != null" >
+        newsdesc = #{newsdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newspicurl != null" >
+        newspicurl = #{newspicurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentur != null" >
+        contentur = #{contentur,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where newsid = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.test.pojo.Newinfo1WithBLOBs" >
+    update newinfo1
+    set newstime = #{newstime,jdbcType=TIMESTAMP},
+      qiuduiid = #{qiuduiid,jdbcType=INTEGER},
+      newstitle = #{newstitle,jdbcType=LONGVARCHAR},
+      newsdesc = #{newsdesc,jdbcType=LONGVARCHAR},
+      newspicurl = #{newspicurl,jdbcType=LONGVARCHAR},
+      contentur = #{contentur,jdbcType=LONGVARCHAR}
+    where newsid = #{newsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.pojo.Newinfo1" >
+    update newinfo1
+    set newstime = #{newstime,jdbcType=TIMESTAMP},
+      qiuduiid = #{qiuduiid,jdbcType=INTEGER}
+    where newsid = #{newsid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.Match1Mapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Match1" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="player1" property="player1" jdbcType="VARCHAR" />
+    <result column="player2" property="player2" jdbcType="VARCHAR" />
+    <result column="player1logo" property="player1logo" jdbcType="VARCHAR" />
+    <result column="player2logo" property="player2logo" jdbcType="VARCHAR" />
+    <result column="player1logobig" property="player1logobig" jdbcType="VARCHAR" />
+    <result column="player2logobig" property="player2logobig" jdbcType="VARCHAR" />
+    <result column="player1url" property="player1url" jdbcType="VARCHAR" />
+    <result column="player2url" property="player2url" jdbcType="VARCHAR" />
+    <result column="link1text" property="link1text" jdbcType="VARCHAR" />
+    <result column="link1url" property="link1url" jdbcType="VARCHAR" />
+    <result column="m_link1url" property="mLink1url" jdbcType="VARCHAR" />
+    <result column="link2text" property="link2text" jdbcType="VARCHAR" />
+    <result column="link2url" property="link2url" jdbcType="VARCHAR" />
+    <result column="m_link2url" property="mLink2url" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, time, player1, player2, player1logo, player2logo, player1logobig, player2logobig, 
+    player1url, player2url, link1text, link1url, m_link1url, link2text, link2url, m_link2url, 
+    status, score
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.Match1Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from match1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from match1
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="com.test.pojo.Match1" >
+    select 
+    *
+    from match1
+   
+  </select>
+  <select id="selectEnd" resultMap="BaseResultMap" parameterType="com.test.pojo.Match1" >
+    select 
+    *
+    from match1 where status=2
+   
+  </select>
+  <select id="selectStart" resultMap="BaseResultMap" parameterType="com.test.pojo.Match1" >
+    select 
+    *
+    from match1 where status=0 or status=1
+   
+  </select>
+ 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from match1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.Match1Example" >
+    delete from match1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.Match1" >
+    insert into match1 (id, time, player1, 
+      player2, player1logo, player2logo, 
+      player1logobig, player2logobig, player1url, 
+      player2url, link1text, link1url, 
+      m_link1url, link2text, link2url, 
+      m_link2url, status, score
+      )
+    values (#{id,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR}, #{player1,jdbcType=VARCHAR}, 
+      #{player2,jdbcType=VARCHAR}, #{player1logo,jdbcType=VARCHAR}, #{player2logo,jdbcType=VARCHAR}, 
+      #{player1logobig,jdbcType=VARCHAR}, #{player2logobig,jdbcType=VARCHAR}, #{player1url,jdbcType=VARCHAR}, 
+      #{player2url,jdbcType=VARCHAR}, #{link1text,jdbcType=VARCHAR}, #{link1url,jdbcType=VARCHAR}, 
+      #{mLink1url,jdbcType=VARCHAR}, #{link2text,jdbcType=VARCHAR}, #{link2url,jdbcType=VARCHAR}, 
+      #{mLink2url,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{score,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.Match1" >
+    insert into match1
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="player1 != null" >
+        player1,
+      </if>
+      <if test="player2 != null" >
+        player2,
+      </if>
+      <if test="player1logo != null" >
+        player1logo,
+      </if>
+      <if test="player2logo != null" >
+        player2logo,
+      </if>
+      <if test="player1logobig != null" >
+        player1logobig,
+      </if>
+      <if test="player2logobig != null" >
+        player2logobig,
+      </if>
+      <if test="player1url != null" >
+        player1url,
+      </if>
+      <if test="player2url != null" >
+        player2url,
+      </if>
+      <if test="link1text != null" >
+        link1text,
+      </if>
+      <if test="link1url != null" >
+        link1url,
+      </if>
+      <if test="mLink1url != null" >
+        m_link1url,
+      </if>
+      <if test="link2text != null" >
+        link2text,
+      </if>
+      <if test="link2url != null" >
+        link2url,
+      </if>
+      <if test="mLink2url != null" >
+        m_link2url,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="player1 != null" >
+        #{player1,jdbcType=VARCHAR},
+      </if>
+      <if test="player2 != null" >
+        #{player2,jdbcType=VARCHAR},
+      </if>
+      <if test="player1logo != null" >
+        #{player1logo,jdbcType=VARCHAR},
+      </if>
+      <if test="player2logo != null" >
+        #{player2logo,jdbcType=VARCHAR},
+      </if>
+      <if test="player1logobig != null" >
+        #{player1logobig,jdbcType=VARCHAR},
+      </if>
+      <if test="player2logobig != null" >
+        #{player2logobig,jdbcType=VARCHAR},
+      </if>
+      <if test="player1url != null" >
+        #{player1url,jdbcType=VARCHAR},
+      </if>
+      <if test="player2url != null" >
+        #{player2url,jdbcType=VARCHAR},
+      </if>
+      <if test="link1text != null" >
+        #{link1text,jdbcType=VARCHAR},
+      </if>
+      <if test="link1url != null" >
+        #{link1url,jdbcType=VARCHAR},
+      </if>
+      <if test="mLink1url != null" >
+        #{mLink1url,jdbcType=VARCHAR},
+      </if>
+      <if test="link2text != null" >
+        #{link2text,jdbcType=VARCHAR},
+      </if>
+      <if test="link2url != null" >
+        #{link2url,jdbcType=VARCHAR},
+      </if>
+      <if test="mLink2url != null" >
+        #{mLink2url,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.Match1Example" resultType="java.lang.Integer" >
+    select count(*) from match1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update match1
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=VARCHAR},
+      </if>
+      <if test="record.player1 != null" >
+        player1 = #{record.player1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.player2 != null" >
+        player2 = #{record.player2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.player1logo != null" >
+        player1logo = #{record.player1logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.player2logo != null" >
+        player2logo = #{record.player2logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.player1logobig != null" >
+        player1logobig = #{record.player1logobig,jdbcType=VARCHAR},
+      </if>
+      <if test="record.player2logobig != null" >
+        player2logobig = #{record.player2logobig,jdbcType=VARCHAR},
+      </if>
+      <if test="record.player1url != null" >
+        player1url = #{record.player1url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.player2url != null" >
+        player2url = #{record.player2url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link1text != null" >
+        link1text = #{record.link1text,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link1url != null" >
+        link1url = #{record.link1url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mLink1url != null" >
+        m_link1url = #{record.mLink1url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link2text != null" >
+        link2text = #{record.link2text,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link2url != null" >
+        link2url = #{record.link2url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mLink2url != null" >
+        m_link2url = #{record.mLink2url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update match1
+    set id = #{record.id,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=VARCHAR},
+      player1 = #{record.player1,jdbcType=VARCHAR},
+      player2 = #{record.player2,jdbcType=VARCHAR},
+      player1logo = #{record.player1logo,jdbcType=VARCHAR},
+      player2logo = #{record.player2logo,jdbcType=VARCHAR},
+      player1logobig = #{record.player1logobig,jdbcType=VARCHAR},
+      player2logobig = #{record.player2logobig,jdbcType=VARCHAR},
+      player1url = #{record.player1url,jdbcType=VARCHAR},
+      player2url = #{record.player2url,jdbcType=VARCHAR},
+      link1text = #{record.link1text,jdbcType=VARCHAR},
+      link1url = #{record.link1url,jdbcType=VARCHAR},
+      m_link1url = #{record.mLink1url,jdbcType=VARCHAR},
+      link2text = #{record.link2text,jdbcType=VARCHAR},
+      link2url = #{record.link2url,jdbcType=VARCHAR},
+      m_link2url = #{record.mLink2url,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.Match1" >
+    update match1
+    <set >
+      <if test="time != null" >
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="player1 != null" >
+        player1 = #{player1,jdbcType=VARCHAR},
+      </if>
+      <if test="player2 != null" >
+        player2 = #{player2,jdbcType=VARCHAR},
+      </if>
+      <if test="player1logo != null" >
+        player1logo = #{player1logo,jdbcType=VARCHAR},
+      </if>
+      <if test="player2logo != null" >
+        player2logo = #{player2logo,jdbcType=VARCHAR},
+      </if>
+      <if test="player1logobig != null" >
+        player1logobig = #{player1logobig,jdbcType=VARCHAR},
+      </if>
+      <if test="player2logobig != null" >
+        player2logobig = #{player2logobig,jdbcType=VARCHAR},
+      </if>
+      <if test="player1url != null" >
+        player1url = #{player1url,jdbcType=VARCHAR},
+      </if>
+      <if test="player2url != null" >
+        player2url = #{player2url,jdbcType=VARCHAR},
+      </if>
+      <if test="link1text != null" >
+        link1text = #{link1text,jdbcType=VARCHAR},
+      </if>
+      <if test="link1url != null" >
+        link1url = #{link1url,jdbcType=VARCHAR},
+      </if>
+      <if test="mLink1url != null" >
+        m_link1url = #{mLink1url,jdbcType=VARCHAR},
+      </if>
+      <if test="link2text != null" >
+        link2text = #{link2text,jdbcType=VARCHAR},
+      </if>
+      <if test="link2url != null" >
+        link2url = #{link2url,jdbcType=VARCHAR},
+      </if>
+      <if test="mLink2url != null" >
+        m_link2url = #{mLink2url,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.pojo.Match1" >
+    update match1
+    set time = #{time,jdbcType=VARCHAR},
+      player1 = #{player1,jdbcType=VARCHAR},
+      player2 = #{player2,jdbcType=VARCHAR},
+      player1logo = #{player1logo,jdbcType=VARCHAR},
+      player2logo = #{player2logo,jdbcType=VARCHAR},
+      player1logobig = #{player1logobig,jdbcType=VARCHAR},
+      player2logobig = #{player2logobig,jdbcType=VARCHAR},
+      player1url = #{player1url,jdbcType=VARCHAR},
+      player2url = #{player2url,jdbcType=VARCHAR},
+      link1text = #{link1text,jdbcType=VARCHAR},
+      link1url = #{link1url,jdbcType=VARCHAR},
+      m_link1url = #{mLink1url,jdbcType=VARCHAR},
+      link2text = #{link2text,jdbcType=VARCHAR},
+      link2url = #{link2url,jdbcType=VARCHAR},
+      m_link2url = #{mLink2url,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      score = #{score,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

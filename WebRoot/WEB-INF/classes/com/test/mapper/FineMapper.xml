@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.FineMapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Fine" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="qiuyuanid" property="qiuyuanid" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.test.pojo.FineWithBLOBs" extends="BaseResultMap" >
+    <result column="qiudui" property="qiudui" jdbcType="LONGVARCHAR" />
+    <result column="jine" property="jine" jdbcType="LONGVARCHAR" />
+    <result column="reason" property="reason" jdbcType="LONGVARCHAR" />
+    <result column="state" property="state" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, qiuyuanid, time
+  </sql>
+  <sql id="Blob_Column_List" >
+    qiudui, jine, reason, state
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.FineExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fine
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.FineExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fine
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fine
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fine
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.FineExample" >
+    delete from fine
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.FineWithBLOBs" >
+    insert into fine (id, qiuyuanid, time, 
+      qiudui, jine, reason, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{qiuyuanid,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{qiudui,jdbcType=LONGVARCHAR}, #{jine,jdbcType=LONGVARCHAR}, #{reason,jdbcType=LONGVARCHAR}, 
+      #{state,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.FineWithBLOBs" >
+    insert into fine
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="qiuyuanid != null" >
+        qiuyuanid,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="qiudui != null" >
+        qiudui,
+      </if>
+      <if test="jine != null" >
+        jine,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="qiuyuanid != null" >
+        #{qiuyuanid,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qiudui != null" >
+        #{qiudui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jine != null" >
+        #{jine,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.FineExample" resultType="java.lang.Integer" >
+    select count(*) from fine
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update fine
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.qiuyuanid != null" >
+        qiuyuanid = #{record.qiuyuanid,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.qiudui != null" >
+        qiudui = #{record.qiudui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.jine != null" >
+        jine = #{record.jine,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update fine
+    set id = #{record.id,jdbcType=INTEGER},
+      qiuyuanid = #{record.qiuyuanid,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      qiudui = #{record.qiudui,jdbcType=LONGVARCHAR},
+      jine = #{record.jine,jdbcType=LONGVARCHAR},
+      reason = #{record.reason,jdbcType=LONGVARCHAR},
+      state = #{record.state,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update fine
+    set id = #{record.id,jdbcType=INTEGER},
+      qiuyuanid = #{record.qiuyuanid,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.FineWithBLOBs" >
+    update fine
+    <set >
+      <if test="qiuyuanid != null" >
+        qiuyuanid = #{qiuyuanid,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qiudui != null" >
+        qiudui = #{qiudui,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jine != null" >
+        jine = #{jine,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.test.pojo.FineWithBLOBs" >
+    update fine
+    set qiuyuanid = #{qiuyuanid,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      qiudui = #{qiudui,jdbcType=LONGVARCHAR},
+      jine = #{jine,jdbcType=LONGVARCHAR},
+      reason = #{reason,jdbcType=LONGVARCHAR},
+      state = #{state,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.pojo.Fine" >
+    update fine
+    set qiuyuanid = #{qiuyuanid,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

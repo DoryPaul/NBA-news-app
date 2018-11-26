@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.TeamMapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Team" >
+    <id column="teamid" property="teamid" jdbcType="INTEGER" />
+    <result column="teamname" property="teamname" jdbcType="VARCHAR" />
+    <result column="win" property="win" jdbcType="INTEGER" />
+    <result column="lost" property="lost" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.test.pojo.TeamWithBLOBs" extends="BaseResultMap" >
+    <result column="teamiconurl" property="teamiconurl" jdbcType="LONGVARCHAR" />
+    <result column="local" property="local" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    teamid, teamname, win, lost
+  </sql>
+  <sql id="Blob_Column_List" >
+    teamiconurl, local
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.TeamExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from team
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.TeamExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from team
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from team
+    where teamid = #{teamid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from team
+    where teamid = #{teamid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.TeamExample" >
+    delete from team
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.TeamWithBLOBs" >
+    insert into team (teamid, teamname, win, 
+      lost, teamiconurl, local
+      )
+    values (#{teamid,jdbcType=INTEGER}, #{teamname,jdbcType=VARCHAR}, #{win,jdbcType=INTEGER}, 
+      #{lost,jdbcType=INTEGER}, #{teamiconurl,jdbcType=LONGVARCHAR}, #{local,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.TeamWithBLOBs" >
+    insert into team
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teamid != null" >
+        teamid,
+      </if>
+      <if test="teamname != null" >
+        teamname,
+      </if>
+      <if test="win != null" >
+        win,
+      </if>
+      <if test="lost != null" >
+        lost,
+      </if>
+      <if test="teamiconurl != null" >
+        teamiconurl,
+      </if>
+      <if test="local != null" >
+        local,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teamid != null" >
+        #{teamid,jdbcType=INTEGER},
+      </if>
+      <if test="teamname != null" >
+        #{teamname,jdbcType=VARCHAR},
+      </if>
+      <if test="win != null" >
+        #{win,jdbcType=INTEGER},
+      </if>
+      <if test="lost != null" >
+        #{lost,jdbcType=INTEGER},
+      </if>
+      <if test="teamiconurl != null" >
+        #{teamiconurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="local != null" >
+        #{local,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.TeamExample" resultType="java.lang.Integer" >
+    select count(*) from team
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update team
+    <set >
+      <if test="record.teamid != null" >
+        teamid = #{record.teamid,jdbcType=INTEGER},
+      </if>
+      <if test="record.teamname != null" >
+        teamname = #{record.teamname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.win != null" >
+        win = #{record.win,jdbcType=INTEGER},
+      </if>
+      <if test="record.lost != null" >
+        lost = #{record.lost,jdbcType=INTEGER},
+      </if>
+      <if test="record.teamiconurl != null" >
+        teamiconurl = #{record.teamiconurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.local != null" >
+        local = #{record.local,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update team
+    set teamid = #{record.teamid,jdbcType=INTEGER},
+      teamname = #{record.teamname,jdbcType=VARCHAR},
+      win = #{record.win,jdbcType=INTEGER},
+      lost = #{record.lost,jdbcType=INTEGER},
+      teamiconurl = #{record.teamiconurl,jdbcType=LONGVARCHAR},
+      local = #{record.local,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update team
+    set teamid = #{record.teamid,jdbcType=INTEGER},
+      teamname = #{record.teamname,jdbcType=VARCHAR},
+      win = #{record.win,jdbcType=INTEGER},
+      lost = #{record.lost,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.TeamWithBLOBs" >
+    update team
+    <set >
+      <if test="teamname != null" >
+        teamname = #{teamname,jdbcType=VARCHAR},
+      </if>
+      <if test="win != null" >
+        win = #{win,jdbcType=INTEGER},
+      </if>
+      <if test="lost != null" >
+        lost = #{lost,jdbcType=INTEGER},
+      </if>
+      <if test="teamiconurl != null" >
+        teamiconurl = #{teamiconurl,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="local != null" >
+        local = #{local,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where teamid = #{teamid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.test.pojo.TeamWithBLOBs" >
+    update team
+    set teamname = #{teamname,jdbcType=VARCHAR},
+      win = #{win,jdbcType=INTEGER},
+      lost = #{lost,jdbcType=INTEGER},
+      teamiconurl = #{teamiconurl,jdbcType=LONGVARCHAR},
+      local = #{local,jdbcType=LONGVARCHAR}
+    where teamid = #{teamid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.pojo.Team" >
+    update team
+    set teamname = #{teamname,jdbcType=VARCHAR},
+      win = #{win,jdbcType=INTEGER},
+      lost = #{lost,jdbcType=INTEGER}
+    where teamid = #{teamid,jdbcType=INTEGER}
+  </update>
+</mapper>

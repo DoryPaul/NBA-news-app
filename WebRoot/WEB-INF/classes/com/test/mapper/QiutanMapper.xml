@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.QiutanMapper" >
+  <resultMap id="BaseResultMap" type="com.test.pojo.Qiutan" >
+    <id column="qiutanid" property="qiutanid" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.test.pojo.Qiutan" extends="BaseResultMap" >
+    <result column="name" property="name" jdbcType="LONGVARCHAR" />
+    <result column="university" property="university" jdbcType="LONGVARCHAR" />
+    <result column="age" property="age" jdbcType="LONGVARCHAR" />
+    <result column="weizhi" property="weizhi" jdbcType="LONGVARCHAR" />
+    <result column="score" property="score" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    qiutanid
+  </sql>
+  <sql id="Blob_Column_List" >
+    name, university, age, weizhi, score
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.test.pojo.QiutanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from qiutan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.test.pojo.QiutanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from qiutan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from qiutan
+    where qiutanid = #{qiutanid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from qiutan
+    where qiutanid = #{qiutanid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.test.pojo.QiutanExample" >
+    delete from qiutan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.test.pojo.Qiutan" >
+    insert into qiutan (qiutanid, name, university, 
+      age, weizhi, score
+      )
+    values (#{qiutanid,jdbcType=INTEGER}, #{name,jdbcType=LONGVARCHAR}, #{university,jdbcType=LONGVARCHAR}, 
+      #{age,jdbcType=LONGVARCHAR}, #{weizhi,jdbcType=LONGVARCHAR}, #{score,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.pojo.Qiutan" >
+    insert into qiutan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="qiutanid != null" >
+        qiutanid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="university != null" >
+        university,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="weizhi != null" >
+        weizhi,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="qiutanid != null" >
+        #{qiutanid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="university != null" >
+        #{university,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="weizhi != null" >
+        #{weizhi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.test.pojo.QiutanExample" resultType="java.lang.Integer" >
+    select count(*) from qiutan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update qiutan
+    <set >
+      <if test="record.qiutanid != null" >
+        qiutanid = #{record.qiutanid,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.university != null" >
+        university = #{record.university,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.weizhi != null" >
+        weizhi = #{record.weizhi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update qiutan
+    set qiutanid = #{record.qiutanid,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=LONGVARCHAR},
+      university = #{record.university,jdbcType=LONGVARCHAR},
+      age = #{record.age,jdbcType=LONGVARCHAR},
+      weizhi = #{record.weizhi,jdbcType=LONGVARCHAR},
+      score = #{record.score,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update qiutan
+    set qiutanid = #{record.qiutanid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.pojo.Qiutan" >
+    update qiutan
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="university != null" >
+        university = #{university,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="weizhi != null" >
+        weizhi = #{weizhi,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where qiutanid = #{qiutanid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.test.pojo.Qiutan" >
+    update qiutan
+    set name = #{name,jdbcType=LONGVARCHAR},
+      university = #{university,jdbcType=LONGVARCHAR},
+      age = #{age,jdbcType=LONGVARCHAR},
+      weizhi = #{weizhi,jdbcType=LONGVARCHAR},
+      score = #{score,jdbcType=LONGVARCHAR}
+    where qiutanid = #{qiutanid,jdbcType=INTEGER}
+  </update>
+</mapper>
